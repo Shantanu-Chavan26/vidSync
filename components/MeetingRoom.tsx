@@ -131,7 +131,6 @@ const MeetingRoom = () => {
     // const roles = members.map(() => messageRole); // Array of custom roles
 
     try {
-
       // if(userId!='user_2fEnk4Pnx6CYD6gvmqHbq3w0FDm'){
       //   const response = await checkChannelExists(meetingId);
       //   console.log("other user channel-> ",channel);
@@ -144,18 +143,29 @@ const MeetingRoom = () => {
         const newchannel = await chatClient.channel('messaging', meetingId, {
         image: 'https://getstream.io/random_png/?name=vidsync',
         name: 'Lets talk',
+        role:"users",
+        members
       });
 
-      await newchannel.addMembers(members,{role: "users"});
+     setChannel(newchannel);
+     setClient(chatClient);
+
 
 
       console.log("new channel-> ",newchannel);
+
+
+      // if(userId==='user_2fEnk4Pnx6CYD6gvmqHbq3w0FDm'){
+      //   return;
+      //   //user_2f6SAR3vzgkKLIuLredw3cOngBn
+      // }
+
+      await newchannel.addMembers(members,{role: "users"});
 
       // await newchannel.addMembers(members);
       setChannel(newchannel);
 
       // await newchannel.watch();
-      setClient(chatClient);
 
       
 
