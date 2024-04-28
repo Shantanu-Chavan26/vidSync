@@ -11,9 +11,12 @@ import {
   useCallStateHooks,
 } from '@stream-io/video-react-sdk';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Users, LayoutList } from 'lucide-react';
+import { Users, LayoutList, PencilLine, MessageCircleMore } from 'lucide-react';
 
 import { useCreateChatClient, Chat, Channel,ChannelList, ChannelHeader, MessageInput, MessageList, Thread, Window } from 'stream-chat-react';
+
+import { Excalidraw } from "@excalidraw/excalidraw";
+import { useFullScreenHandle } from 'react-full-screen';
 
 
 import {
@@ -32,6 +35,7 @@ import { User, Channel as StreamChannel, DefaultGenerics, StreamChat } from 'str
 
 import 'stream-chat-react/dist/css/v2/index.css';
 import './layout.css';
+import './excalidrawpage.css';
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right';
 
@@ -79,7 +83,6 @@ const MeetingRoom = () => {
 
   const { StreamChat } = require('stream-chat');
 
-
     //chat feature
     const jwt_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl8yZkVuazRQbng2Q1lENmd2bXFIYnEzdzBGRG0ifQ.Vhc0rIQ5OzhIABRmv2kPymEeufdgOAAhuurw48NyjHI";
 
@@ -93,6 +96,32 @@ const MeetingRoom = () => {
     const options = { state: true, presence: true, limit: 10 };
     const sort = { last_message_at: -1, updated_at: -1 };
 
+    //chat visibility
+    const[showChats,setShowChats]=useState(false);
+
+    const toggleChats=()=>{
+      if(!showChats){
+        setShowChats(true);
+      }
+      else{
+        setShowChats(false);
+      }
+    }
+
+    //excalidraw window
+    const handle = useFullScreenHandle();
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    
+    const toggleFullscreen = () => {
+      handle.enter();
+      setIsFullscreen(true);
+    };
+
+    const exitFullscreen = () => {
+      handle.exit();
+      setIsFullscreen(false);
+    };
+    
 
 
 
@@ -200,6 +229,7 @@ const MeetingRoom = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
       <Navbar/>
+
       <div className="relative flex size-full items-center justify-center">
         <div className=" flex size-full max-w-[1000px] items-center">
           <CallLayout />
@@ -211,6 +241,49 @@ const MeetingRoom = () => {
         >
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
+
+          {/* chat  */}
+        <div
+          className={cn('h-[calc(100vh-150px)] hidden ml-2', {
+            'show-block': showChats,
+          })}
+        >
+          {showChats && client && channel && (
+            <Chat client={client!} theme='messaging '>
+            <Channel channel={channel}>
+              <Window>
+                <ChannelHeader />
+                <MessageList />
+                <MessageInput focus />
+              </Window>
+              <Thread />
+            </Channel>
+          </Chat>
+          )
+          } 
+          
+        </div>
+
+        <div
+          className={cn('h-[calc(100vh-86px)] hidden ml-2', {
+            'show-block': isFullscreen,
+          })}
+        >
+           {isFullscreen && (
+          <>
+          <h1 style={{ textAlign: "center" }}>Excalidraw</h1>
+          <div style={{ height: "500px" }}>
+            <Excalidraw />
+          </div>
+          </>   
+        )}
+          
+        </div>
+
+
+
+        
+
       </div>
       {/* video layout and call controls */}
       <div className="fixed bottom-0 flex w-full items-center justify-center gap-5">
@@ -242,13 +315,32 @@ const MeetingRoom = () => {
           <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
             <Users size={20} className="text-white" />
           </div>
-        </button>        
+        </button>
+
+
+         {/* chat btn     */}
+         <button onClick={() =>toggleChats()}>
+          <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
+          <MessageCircleMore/>
+          </div>
+        </button> 
+         
+
+          {/* whiteboard btn  */}
+         <div className={isFullscreen ? 'fullscreen' : ''}>
+        <button onClick={isFullscreen ? exitFullscreen : toggleFullscreen}>
+          <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
+            <PencilLine/>
+          </div>
+        </button>
+       
+      </div>     
         
         {!isPersonalRoom && <EndCallButton />}
 
         {/* <Chat client={client!}>Chat with client is ready!</Chat> */}
 
-        {client && channel && (
+        {/* {client && channel && (
           <Chat client={client!} theme='messaging '>
           <Channel channel={channel}>
             <Window>
@@ -259,7 +351,7 @@ const MeetingRoom = () => {
             <Thread />
           </Channel>
         </Chat>
-        )}    
+        )}     */}
         
 {/* 
         <Chat client={client!}>
