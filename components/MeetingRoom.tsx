@@ -98,6 +98,7 @@ const MeetingRoom = () => {
 
     //chat visibility
     const[showChats,setShowChats]=useState(false);
+    const[showWhiteboard,setShowWhiteboard]=useState(false);
 
     const toggleChats=()=>{
       if(!showChats){
@@ -105,6 +106,15 @@ const MeetingRoom = () => {
       }
       else{
         setShowChats(false);
+      }
+    }
+
+    const toggleWhiteboard=()=>{
+      if(!showWhiteboard){
+        setShowWhiteboard(true);
+      }
+      else{
+        setShowWhiteboard(false);
       }
     }
 
@@ -266,10 +276,11 @@ const MeetingRoom = () => {
 
         <div
           className={cn('h-[calc(100vh-86px)] hidden ml-2', {
-            'show-block': isFullscreen,
+            'show-block': showWhiteboard,
           })}
+          style={{ width: '100vw', zIndex: 10 }} 
         >
-           {isFullscreen && (
+           {showWhiteboard && (
           <>
           <h1 style={{ textAlign: "center" }}>Excalidraw</h1>
           <div style={{ height: "500px" }}>
@@ -324,17 +335,23 @@ const MeetingRoom = () => {
           <MessageCircleMore/>
           </div>
         </button> 
+
+        <button onClick={() =>toggleWhiteboard()}>
+          <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
+          <PencilLine/>
+          </div>
+        </button> 
          
 
           {/* whiteboard btn  */}
-         <div className={isFullscreen ? 'fullscreen' : ''}>
+         {/* <div className={isFullscreen ? 'fullscreen' : ''}>
         <button onClick={isFullscreen ? exitFullscreen : toggleFullscreen}>
           <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
             <PencilLine/>
           </div>
         </button>
        
-      </div>     
+      </div>      */}
         
         {!isPersonalRoom && <EndCallButton />}
 
