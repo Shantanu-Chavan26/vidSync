@@ -19,3 +19,7 @@ body {
 .str-chat__thread {
   width: 45%;
 }
+
+.str-chat_container{
+  margin-top: 30px;
+}
