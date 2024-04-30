@@ -3,7 +3,7 @@ import { DeviceSettings, VideoPreview, useCall } from '@stream-io/video-react-sd
 import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button';
 
-//for camera and microphone setup
+// for camera and microphone setup
 const MeetingSetup = ({setIsSetupComplete}:{setIsSetupComplete: (value:boolean)=>void}) => {
 
   const[isMicCamToggledOn,setIsMicCamToggledOn]=useState(true);

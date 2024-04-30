@@ -1,5 +1,5 @@
 'use client'
-import Image from 'next/image'
+// import Image from 'next/image'
 import React, { useState } from 'react'
 import HomeCard from './HomeCard'
 import { useRouter } from 'next/navigation'
@@ -40,11 +40,11 @@ const MeetingTypeList = () => {
                   })
             }
             const id= crypto.randomUUID();
-            const call=client.call('default',id);   //starts a call
+            const call=client.call('default',id);   // starts a call
 
             if(!call) throw new Error('Failed to create a call !!');
 
-            const startsAt=values.dateTime.toISOString() || new Date(Date.now()).toISOString();  //meet started at
+            const startsAt=values.dateTime.toISOString() || new Date(Date.now()).toISOString();  // meet started at
             const description=values.description || 'Instant Meeting';
 
             await call.getOrCreate({

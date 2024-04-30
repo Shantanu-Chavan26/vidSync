@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import {
-  Call,
   CallControls,
   CallParticipantsList,
   CallStatsButton,
@@ -13,7 +12,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Users, LayoutList, PencilLine, MessageCircleMore } from 'lucide-react';
 
-import { useCreateChatClient, Chat, Channel,ChannelList, ChannelHeader, MessageInput, MessageList, Thread, Window } from 'stream-chat-react';
+import {Chat, Channel,ChannelHeader, MessageInput, MessageList, Thread, Window } from 'stream-chat-react';
 
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { useFullScreenHandle } from 'react-full-screen';
@@ -31,7 +30,7 @@ import EndCallButton from './EndCallButton';
 import { cn } from '@/lib/utils';
 import Navbar from './Navbar';
 import { useUser } from '@clerk/nextjs';
-import { User, Channel as StreamChannel, DefaultGenerics, StreamChat } from 'stream-chat';
+// import {Channel as StreamChannel, DefaultGenerics, StreamChat } from 'stream-chat';
 
 import 'stream-chat-react/dist/css/v2/index.css';
 import './layout.css';
@@ -64,11 +63,8 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
   const [showParticipants, setShowParticipants] = useState(false);
 
-  const { useCallCallingState,useCallMembers,
-    useDominantSpeaker,
-    useParticipants,
-    useLocalParticipant,
-    useIsCallRecordingInProgress,} = useCallStateHooks();
+  const { useCallCallingState,
+    useParticipants} = useCallStateHooks();
 
   const allParticipants=useParticipants();
 
@@ -83,20 +79,17 @@ const MeetingRoom = () => {
 
   const { StreamChat } = require('stream-chat');
 
-    //chat feature
-    const jwt_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl8yZkVuazRQbng2Q1lENmd2bXFIYnEzdzBGRG0ifQ.Vhc0rIQ5OzhIABRmv2kPymEeufdgOAAhuurw48NyjHI";
+    // chat feature
+    // const jwt_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl8yZkVuazRQbng2Q1lENmd2bXFIYnEzdzBGRG0ifQ.Vhc0rIQ5OzhIABRmv2kPymEeufdgOAAhuurw48NyjHI";
 
     const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY|| '';
     const userId = user?.id||'';
     const userName = user?.fullName||'';
     const userImg=user?.imageUrl; 
-    let usertoken:string='';
+    // let usertoken:string='';
 
-    const filters = { type: 'messaging', members: {$in: [user?.id]}  };
-    const options = { state: true, presence: true, limit: 10 };
-    const sort = { last_message_at: -1, updated_at: -1 };
 
-    //chat visibility
+    // chat visibility
     const[showChats,setShowChats]=useState(false);
     const[showWhiteboard,setShowWhiteboard]=useState(false);
 
@@ -109,6 +102,8 @@ const MeetingRoom = () => {
       }
     }
 
+    // excalidraw window
+
     const toggleWhiteboard=()=>{
       if(!showWhiteboard){
         setShowWhiteboard(true);
@@ -118,20 +113,6 @@ const MeetingRoom = () => {
       }
     }
 
-    //excalidraw window
-    const handle = useFullScreenHandle();
-    const [isFullscreen, setIsFullscreen] = useState(false);
-    
-    const toggleFullscreen = () => {
-      handle.enter();
-      setIsFullscreen(true);
-    };
-
-    const exitFullscreen = () => {
-      handle.exit();
-      setIsFullscreen(false);
-    };
-    
 
 
 
@@ -196,7 +177,7 @@ const MeetingRoom = () => {
 
       // if(userId==='user_2fEnk4Pnx6CYD6gvmqHbq3w0FDm'){
       //   return;
-      //   //user_2f6SAR3vzgkKLIuLredw3cOngBn
+      //   // user_2f6SAR3vzgkKLIuLredw3cOngBn
       // }
 
       await newchannel.addMembers(members,{role: "users"});
