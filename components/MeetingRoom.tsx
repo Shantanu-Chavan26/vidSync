@@ -1,3 +1,5 @@
+/* eslint-disable new-cap */
+
 'use client';
 import { useEffect, useState } from 'react';
 import {
@@ -133,6 +135,7 @@ const MeetingRoom = () => {
     const chatClient=new StreamChat.getInstance(apiKey);
 
     await chatClient.connectUser({ id: userId, name:userName ,image:userImg }, chatClient.devToken(userId));
+    
 
     const participantPromises = allParticipants.map(async (participant) => participant.userId); 
     const participantUserIds = await Promise.all(participantPromises); // Wait for all IDs to resolve
@@ -185,8 +188,6 @@ const MeetingRoom = () => {
       setChannel(newchannel);
 
       // await newchannel.watch();
-
-      
 
      
     } catch (error) {
