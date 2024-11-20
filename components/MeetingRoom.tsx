@@ -80,15 +80,10 @@ const MeetingRoom = () => {
 
   const { StreamChat } = require('stream-chat');
 
-    // chat feature
-    // const jwt_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl8yZkVuazRQbng2Q1lENmd2bXFIYnEzdzBGRG0ifQ.Vhc0rIQ5OzhIABRmv2kPymEeufdgOAAhuurw48NyjHI";
-
     const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY|| '';
     const userId = user?.id||'';
     const userName = user?.fullName||'';
     const userImg=user?.imageUrl; 
-    // let usertoken:string='';
-
 
     // chat visibility
     const[showChats,setShowChats]=useState(false);
@@ -145,13 +140,7 @@ const MeetingRoom = () => {
 
     console.log("members id-> ",members);
 
-    // const messageRole = await chatClient.createRole({
-    //   name: 'chatMember',
-    //   permissions: ['ReadChannel', 'SendMessage'],
-    // });
-
-    // const roles = members.map(() => messageRole); // Array of custom roles
-
+   
     try {
       // if(userId!='user_2fEnk4Pnx6CYD6gvmqHbq3w0FDm'){
       //   const response = await checkChannelExists(meetingId);
@@ -206,7 +195,7 @@ const MeetingRoom = () => {
     init();
 
   },[allParticipants.length,user]);
-
+ 
   
 
 
