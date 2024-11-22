@@ -1,3 +1,16 @@
+# VidSync- Real time Conferencing Platform
+It has all basic functionalities present in Gmeet like creating new meetings,joining meets using link, screen sharing. But it is much better in many ways :)
+
+## Additional Features
+
+1. It provides users to share images,files in chats which is not present in the GoogleMeet 
+2. Users can as well as react and reply to messages. 
+3. One unique feature of VidSync is that even if a user joins the meet in middle, they can still see the previous chats which help them to get the context what has happened in the meet till now.
+4. It has inbuilt collaborative white board present ,user donot need to switch tabs
+
+<br><br>
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 Hosted Link: https://vid-sync.vercel.app/sign-in?redirect_url=https%3A%2F%2Fvid-sync.vercel.app%2F
 
